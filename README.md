@@ -5,16 +5,15 @@ This will get your webapp up and running with its own MongoDB database _blazingl
 
 ## Getting Started
 
-1. Clone the repo and cd into it
+1. Clone the repo and cd into it  
 
 ```bash
 git clone https://github.com/mikkelrask/nextjs-mongodb-stack.git 
 cd nextjs-mongodb-stack
 ```
   
-2. Copy/move `env-example` to `.env` with `cp env-example .env`, and fill out the details. 
+2. Copy/move `env-example` to `.env` with `cp env-example .env`, and fill out the details.   
 Add any potentially other environment variables your project needs in this step too.
-
 ```env
 MONGO_USER=your-username # Your desired database user
 MONGO_PASS=5tr0n9p455w0rd # And the password you want to use
@@ -26,16 +25,16 @@ YOUR-SECRET-VARIABLE=SECRET_VALUE
 ...etc
 ```
 
-3. Copy your mongodb dump
+3. Copy your mongodb dump  
 If you have a MongoDB dump you need to seed your database with, copy it to the `./mongo-dump` directory
 ```bash
 cp /path/to/json-dump-file ./mongo-dump/
 ```
-The dump is automatically being restored when the containers start, and the webapp is waiting to build until MongoDB is ready and restored.
+The dump is automatically being restored when the containers start, and the webapp is waiting to build until MongoDB is ready and restored.  
 All MongoDB data is stored in the `./data` directory.
  
-4. Build and up the stack
-Use the `--no-cache` and `--force-recreate` flags to always get the latest images layers and data from the db.
+4. Build and up the stack  
+Use the `--no-cache` and `--force-recreate` flags to always get the latest images layers and data from the db.  
 ```bash
 docker compose build --no-cache
 docker compose up -d --force-recreate
@@ -48,11 +47,11 @@ docker compose up -d --force-recreate
 - Build the webapp
 - Start the next server on port `3000`
 
-The site is now live on `http://127.0.0.1:3000`/`http://localhost:3000` and the database on port `27017`
+The site is now live on `http://127.0.0.1:3000`/`http://localhost:3000` and the database on port `27017`  
 Confirm the stack is running with `docker ps` - the container name depends on your folder naming (defaults to "nextjs-mongodb-stack")
 
 ## Rebuild
-After making changes to the repo/database rebuild and restart the stack.
+After making changes to the repo/database rebuild and restart the stack.  
 ```bash
 docker compose down
 docker compose up --build --force-recreate -d
