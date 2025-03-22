@@ -56,3 +56,6 @@ After making changes to the repo/database rebuild and restart the stack.
 docker compose down
 docker compose up --build --force-recreate -d
 ```
+
+Alternately set up the supplied [yaml workflow file](./workflow/rebuild-on-push.yml) as a [Github Action](https://docs.github.com/en/actions) in the repository for your NextJS project.  
+This route requires you to create a SSH key on your server and supply that as well as your server IP as [repository secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/about-secrets) in the repo as well.
