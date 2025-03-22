@@ -1,0 +1,6 @@
+MONGO_USER=username
+MONGO_PASS=password
+MONGO_DB_NAME=datase
+MONGO_DUMP_FILENAME=dump.json
+REPO_URL=https://github.com/username/repo.git
+

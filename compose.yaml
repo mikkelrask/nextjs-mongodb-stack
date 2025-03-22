@@ -1,5 +1,7 @@
 services:
   frontend:
+    env_file: 
+      - .env
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,10 +11,13 @@ services:
       - "3000:3000"
     environment:
       - MONGODB_URI=mongodb://${MONGO_USER}:${MONGO_PASS}@mongodb:27017/${MONGO_DB_NAME}.db?authSource=admin
-    restart: unless-stopped
-    command: pnpm start
+    restart: always
+    depends_on:
+      - mongodb
 
   mongodb:
+    env_file: 
+      - .env
     image: mongo:latest
     ports:
       - "27017:27017"
@@ -21,11 +26,5 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
       - MONGO_INITDB_DATABASE=${MONGO_DB_NAME}
     volumes:
-      - ./mongo-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
+      - ./data:/data/db
     restart: unless-stopped

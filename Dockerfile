@@ -12,19 +12,15 @@ ARG REPO_URL
 RUN git clone ${REPO_URL} app
 
 WORKDIR /app
+COPY .env .env
+COPY entrypoint.sh /entrypoint.sh
 
-COPY scripts/ scripts/ 
-
-RUN echo "Making /app/scripts/restore-dump.sh executable 🚀"
-RUN chmod +x /app/scripts/restore-dump.sh
+RUN echo "Making scripts executable 🚀"
+RUN chmod +x /entrypoint.sh
 
 RUN echo "Installing node packages 📦"
 RUN pnpm install
 
-RUN echo "Building site 👷🏼"
-RUN pnpm build
-
 EXPOSE 3000
 
-RUN echo "Hosting site on 0.0.0.0:3000 ☁️"
-CMD ["pnpm", "start"]
+ENTRYPOINT ["/entrypoint.sh"]

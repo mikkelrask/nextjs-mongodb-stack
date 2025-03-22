@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextJS/MongoDB starter stack
+You developed your NextJS webapp locally, and now you want to containerize it with Docker on your server/VPS. 
+
+This will get your webapp up and running with its own MongoDB database _blazingly fast_ and very limited setup. ⚡
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repo and cd into it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mikkelrask/nextjs-mongodb-stack.git 
+cd nextjs-mongodb-stack
+```
+  
+2. Copy/move `env-example` to `.env` with `cp env-example .env`, and fill out the details. 
+Add any potentially other environment variables your project needs in this step too.
+
+```env
+MONGO_USER=your-username # Your desired database user
+MONGO_PASS=5tr0n9p455w0rd # And the password you want to use
+MONGO_DB_NAME=database # can be left or changed per your liking
+MONGO_DUMP_FILENAME=your-dump.json # The filename for your existing mongodb json dump file
+REPO_URL=https://github.com/SiddharthaMaity/nextjs-15-starter-core.git # The git URL for your nextjs repo
+... 
+YOUR-SECRET-VARIABLE=SECRET_VALUE
+...etc
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Copy your mongodb dump
+If you have a MongoDB dump you need to seed your database with, copy it to the `./mongo-dump` directory
+```bash
+cp /path/to/json-dump-file ./mongo-dump/
+```
+The dump is automatically being restored when the containers start, and the webapp is waiting to build until MongoDB is ready and restored.
+All MongoDB data is stored in the `./data` directory.
+ 
+4. Build and up the stack
+Use the `--no-cache` and `--force-recreate` flags to always get the latest images layers and data from the db.
+```bash
+docker compose build --no-cache
+docker compose up -d --force-recreate
+```
+**This will**
+- Spin up the containers
+- Pull your repo
+- Install node dependencies
+- Make sure MongoDB has data (if it needs to) and makes it available on port `27017`
+- Build the webapp
+- Start the next server on port `3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The site is now live on `http://127.0.0.1:3000`/`http://localhost:3000` and the database on port `27017`
+Confirm the stack is running with `docker ps` - the container name depends on your folder naming (defaults to "nextjs-mongodb-stack")
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Rebuild
+After making changes to the repo/database rebuild and restart the stack.
+```bash
+docker compose down
+docker compose up --build --force-recreate -d
+```
