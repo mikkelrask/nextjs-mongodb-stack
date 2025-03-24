@@ -26,5 +26,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
       - MONGO_INITDB_DATABASE=${MONGO_DB_NAME}
     volumes:
-      - ./data:/data/db
+      - dbdata:/data/db
     restart: unless-stopped
+volumes:
+  dbdata:
