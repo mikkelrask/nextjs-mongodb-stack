@@ -25,5 +25,5 @@ fi
 echo "Building site 🏗️"
 pnpm build
 
-echo "Starting server on 0.0.0.0:3000 🚀"
+echo "Starting server on 0.0.0.0:$NEXTJS_PORT 🚀"
 exec node .next/standalone/server.js
