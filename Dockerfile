@@ -7,16 +7,19 @@ RUN echo "Getting pnpm 📦"
 RUN npm install -g pnpm
 RUN which pnpm
 
-RUN echo "Cloning repo ⏬"
-ARG REPO_URL
-RUN git clone ${REPO_URL} app
-
 WORKDIR /app
 COPY .env .env
-COPY entrypoint.sh /entrypoint.sh
+COPY *.sh /
+COPY mongo-dump /mongo-dump
 
 RUN echo "Making scripts executable 🚀"
+RUN chmod +x /clone-repo.sh
 RUN chmod +x /entrypoint.sh
+
+RUN echo "Cloning repo ⏬"
+ARG REPO_URL
+RUN ./clone-repo.sh
+
 
 RUN echo "Installing node packages 📦"
 RUN pnpm install
