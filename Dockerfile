@@ -4,7 +4,7 @@ RUN echo "Installing tools 🛠️"
 RUN apk add --no-cache git mongodb-tools
 
 RUN echo "Getting pnpm 📦"
-RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
+RUN npm install -g pnpm
 RUN which pnpm
 
 RUN echo "Cloning repo ⏬"
