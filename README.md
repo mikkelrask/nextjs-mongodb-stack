@@ -12,26 +12,34 @@ git clone https://github.com/mikkelrask/nextjs-mongodb-stack.git
 cd nextjs-mongodb-stack
 ```
   
-2. Copy/move `env-example` to `.env` with `cp env-example .env`, and fill out the details.   
-Add any potentially other environment variables your project needs in this step too.
-```env
+2. Copy/move `env-example` to `.env`, and make changes to your needs.   
+Also add any potentially other needed environment variables for your project in this step.
+```bash
+cat env-example > .env
+nano .env
+```
+```
+NEXTJS_PORT=3000 # Defaults to port 3000 - can be changed if needed 
+
 MONGO_USER=your-username # Your desired database user
 MONGO_PASS=5tr0n9p455w0rd # And the password you want to use
 MONGO_DB_NAME=database # can be left or changed per your liking
-MONGO_DUMP_FILENAME=your-dump.json # The filename for your existing mongodb json dump file
+MONGO_PORT=27017 # Defaults to 27017 - can be changed if needed 
+
 REPO_URL=https://github.com/SiddharthaMaity/nextjs-15-starter-core.git # The git URL for your nextjs repo
+GIT_USER= # Fill out GIT_USER and GIT_PASS if you use a private repo
+GIT_PASS=
 ... 
-YOUR-SECRET-VARIABLE=SECRET_VALUE
+YOUR-OTHER-SECRETS=SUPER_SECRET
 ...etc
 ```
 
 3. Copy your mongodb dump  
 If you have a MongoDB dump you need to seed your database with, copy it to the `./mongo-dump` directory
 ```bash
-cp /path/to/json-dump-file ./mongo-dump/
+cp /path/to/json-dumps mongo-dump/
 ```
-The dump is automatically being restored when the containers start, and the webapp is waiting to build until MongoDB is ready and restored.  
-All MongoDB data is stored in the `./data` directory.
+The dump is automatically being restored when the containers start, and the webapp will not start to build until MongoDB is ready and potentially restored.  
  
 4. Build and up the stack  
 Use the `--no-cache` and `--force-recreate` flags to always get the latest images layers and data from the db.  
@@ -40,12 +48,13 @@ docker compose build --no-cache
 docker compose up -d --force-recreate
 ```
 **This will**
-- Spin up the containers
-- Pull your repo
-- Install node dependencies
-- Make sure MongoDB has data (if it needs to) and makes it available on port `27017`
-- Build the webapp
-- Start the next server on port `3000`
+- Pull you Github repository from Github/Gitlab
+- Install all node dependencies with `pnpm`[^](https://pnpm.io/)
+- Build a custom Docker image based on the [current node/alpine image](https://hub.docker.com/_/node)
+- Spin up the containers `nextjs-mongodb-stack-frontend-1` and `nextjs-mongodb-stack-mongodb-1`
+- Make sure the database has all needed data, and makes it available on the port specified in the `.env` file (default: `27017`)
+- Build the webapp 
+- Start the next server with `node` (default port: `3000`)
 
 The site is now live on `http://127.0.0.1:3000`/`http://localhost:3000` and the database on port `27017`  
 Confirm the stack is running with `docker ps` - the container name depends on your folder naming (defaults to "nextjs-mongodb-stack")
