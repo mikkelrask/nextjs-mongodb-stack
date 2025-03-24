@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e 
 
-if [ -f "/mongo-dump/${MONGO_DUMP_FILENAME}" ]; then
-  echo "Restoring dump from ./mongo-dump/$MONGO_DUMP_FILENAME 💩"
+if [ -d "/mongo-dump" ]; then
+  echo "Restoring dump from ./mongo-dump/ 💩"
 
   if [[ "$MONGO_DUMP_FILENAME" == *.archive ]]; then
     mongorestore --host mongodb --username $MONGO_USER --password $MONGO_PASS --authenticationDatabase admin --archive=/mongo-dump/${MONGO_DUMP_FILENAME}
