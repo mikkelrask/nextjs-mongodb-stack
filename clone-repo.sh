@@ -3,7 +3,6 @@ set -e
 
 echo "Cloning repo ⏬"
 
-# Check if GIT_USER and GIT_PASS are set
 if [ -n "$GIT_USER" ] && [ -n "$GIT_PASS" ]; then
     echo "Using authenticated Git clone 🫡"
     REPO_PATH=$(echo ${REPO_URL} | sed 's/https:\/\/github.com\///')
