@@ -5,7 +5,7 @@ RUN apk add --no-cache git mongodb-tools
 
 RUN echo "Getting pnpm 📦"
 RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
-ENV PATH="/root/.local/share/pnpm:$PATH"
+RUN which pnpm
 
 RUN echo "Cloning repo ⏬"
 ARG REPO_URL
