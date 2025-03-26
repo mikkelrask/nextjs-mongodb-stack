@@ -4,9 +4,9 @@ set -e
 if [ -d "/mongo-dump" ]; then
   echo "Restoring dump from ./mongo-dump/ 💩"
 
-  if [[ "$MONGO_DUMP_FILENAME" == *.archive ]]; then
+  if [[ "$MONGO_DUMP_FILENAME" == /mongo-dump/*.archive ]]; then
     mongorestore --host mongodb --username $MONGO_USER --password $MONGO_PASS --authenticationDatabase admin --archive=/mongo-dump/${MONGO_DUMP_FILENAME}
-  elif [[ "$MONGO_DUMP_FILENAME" == *.json ]]; then
+  elif [[ "$MONGO_DUMP_FILENAME" == /mongo-dump/*.json ]]; then
     mongoimport --host mongodb --username $MONGO_USER --password $MONGO_PASS --authenticationDatabase admin --db $MONGO_DB_NAME --file /mongo-dump/${MONGO_DUMP_FILENAME} --jsonArray
   else
     mongorestore --host mongodb --username $MONGO_USER --password $MONGO_PASS --authenticationDatabase admin --db $MONGO_DB_NAME /mongo-dump
@@ -23,7 +23,7 @@ else
 fi
 
 echo "Building site 🏗️"
-pnpm build
+pnpm run build
 
 echo "Starting server on 0.0.0.0:$NEXTJS_PORT 🚀"
-exec node .next/standalone/server.js
+pnpm run start -p $NEXTJS_PORT -H 0.0.0.0
