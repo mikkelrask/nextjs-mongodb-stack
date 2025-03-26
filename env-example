@@ -1,5 +1,5 @@
 # NextJS - if you have services running on port 3000 change this
-NEXJS_PORT=3000
+NEXTJS_PORT=3000
 
 # Database - set your desired database username, password and database name. 
 # Port is defaulting to 27017 and can be changed if needed

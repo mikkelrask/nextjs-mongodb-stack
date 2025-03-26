@@ -6,6 +6,7 @@ RUN apk add --no-cache git mongodb-tools
 RUN echo "Getting pnpm 📦"
 RUN npm install -g pnpm
 
+COPY .env /.env
 COPY clone-repo.sh /clone-repo.sh
 COPY entrypoint.sh /entrypoint.sh
 COPY mongo-dump /mongo-dump
