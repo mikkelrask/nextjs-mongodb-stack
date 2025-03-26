@@ -62,7 +62,7 @@ Confirm the stack is running with `docker ps` - the container name depends on yo
 ## Rebuild
 After making changes to the repo/database rebuild and restart the stack.  
 ```bash
-docker compose down
+docker compose down --volumes
 docker compose up --build --force-recreate -d
 ```
 
