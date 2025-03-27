@@ -12,12 +12,33 @@ git clone https://github.com/mikkelrask/nextjs-mongodb-stack.git
 cd nextjs-mongodb-stack
 ```
   
+2. Run the included [deployer]("../nextjs-mongodb-stack-godeployer") for a prompt based setup
+```bash
+./deployer
+🚀 DPLOY - BUILD YOUR WEBSITE
+
+Fill the needed data to deploy your webapp - Enter keeps the suggested default
+
+? NextJS webapp repository URL: https://github.com/SiddharthaMaity/nextjs-15-starter-core.git
+? Is the repository private? No
+? Do you want to specify a port for NextJS?  3001
+? Do you want to import a database dump? Yes
+? Database dump path:  ~/Downloads/production/production
+📁 Copying the database dump to the dump directory...
+? MongoDB Database name? production
+? MongoDB Username:  admin
+....
+....
+```
+
+### Alternate step 2: Do it manual
 2. Copy/move `env-example` to `.env`, and make changes to your needs.   
 Also add any potentially other needed environment variables for your project in this step.
 ```bash
 cat env-example > .env
 nano .env
 ```
+
 ```
 NEXTJS_PORT=3000 # Defaults to port 3000 - can be changed if needed 
 
@@ -61,6 +82,8 @@ Confirm the stack is running with `docker ps` - the container name depends on yo
 
 ## Rebuild
 After making changes to the repo/database rebuild and restart the stack.  
+
+You can do this with re-running the includeded `deployer` or with: 
 ```bash
 docker compose down --volumes
 docker compose up --build --force-recreate -d
